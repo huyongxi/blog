@@ -3,7 +3,7 @@
 
 aux_source_directory(. DEMO_SRC_LIST)
 
-add_executable(demo ${DEMO_SRC_LIST} ${CMAKE_SOURCE_DIR}/src/webSocketClient.cpp)
+add_executable(demo ${DEMO_SRC_LIST})
 
 target_include_directories(demo 
     PUBLIC ${CMAKE_SOURCE_DIR}/include

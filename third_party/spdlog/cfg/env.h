@@ -23,7 +23,7 @@
 // turn off all logging except for logger1 and logger2:
 // export SPDLOG_LEVEL="off,logger1=debug,logger2=info"
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace cfg {
 inline void load_env_levels(const char* var = "SPDLOG_LEVEL") {
     auto env_val = details::os::getenv(var);
@@ -33,4 +33,4 @@ inline void load_env_levels(const char* var = "SPDLOG_LEVEL") {
 }
 
 }  // namespace cfg
-}  // namespace spdlog
+}  // namespace blog::spdlog

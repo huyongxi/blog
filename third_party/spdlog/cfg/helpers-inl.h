@@ -16,7 +16,7 @@
 #include <string>
 #include <utility>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace cfg {
 namespace helpers {
 
@@ -104,4 +104,4 @@ SPDLOG_INLINE void load_levels(const std::string &input) {
 
 }  // namespace helpers
 }  // namespace cfg
-}  // namespace spdlog
+}  // namespace blog::spdlog

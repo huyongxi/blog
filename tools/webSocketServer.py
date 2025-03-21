@@ -12,7 +12,7 @@ async def handler(websocket):
         print("Connection closed")
 
 async def main():
-    async with websockets.serve(handler, "localhost", 8765):
+    async with websockets.serve(handler, "localhost", 7654):
         await asyncio.Future()  # 永久运行
 
 if __name__ == "__main__":

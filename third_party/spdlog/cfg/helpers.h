@@ -6,7 +6,7 @@
 #include <spdlog/common.h>
 #include <unordered_map>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace cfg {
 namespace helpers {
 //
@@ -22,7 +22,7 @@ SPDLOG_API void load_levels(const std::string &txt);
 }  // namespace helpers
 
 }  // namespace cfg
-}  // namespace spdlog
+}  // namespace blog::spdlog
 
 #ifdef SPDLOG_HEADER_ONLY
     #include "helpers-inl.h"

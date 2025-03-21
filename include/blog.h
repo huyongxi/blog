@@ -21,12 +21,12 @@ using std::experimental::source_location;
 #define LEVEL_CRITICAL 5
 #define LEVEL_OFF 6
 
-#define LOG Blog::instance()
+#define BLOG Blog::instance()
 
-namespace spdlog
+namespace blog::spdlog
 {
 class logger;
-}  // namespace spdlog
+}  // namespace blog::spdlog
 
 class webSocketClient;
 
@@ -78,6 +78,9 @@ class Blog
 
     bool init(const std::string& logger_name, const std::string& filename, size_t max_file_size = 1024 * 1024 * 5,
               size_t max_files = 3);
+
+    void enable_log_upload(const std::string& host, uint16_t port);
+    void set_net_server(const std::string& ip, int port);
     void set_level(loglevel log_level);
     void set_enable_console(bool enable_console)
     {
@@ -88,7 +91,7 @@ class Blog
         enable_file_ = enable_file;
     }
 
-    static Blog& instance();
+    static Blog* instance();
 
     template <typename... Args>
     void log(loglevel level, const ArgsWithLocation& arg, Args&&... args)
@@ -191,8 +194,8 @@ class Blog
     void log_i(const source_location&, loglevel, const char*, S, S, S, S, S, S, S, S);
 
    private:
-    std::shared_ptr<spdlog::logger>  file_impl_{nullptr};
-    std::shared_ptr<spdlog::logger>  console_impl_{nullptr};
+    std::shared_ptr<blog::spdlog::logger>  file_impl_{nullptr};
+    std::shared_ptr<blog::spdlog::logger>  console_impl_{nullptr};
     std::shared_ptr<webSocketClient> client_impl_{nullptr};
     bool                             enable_console_{true};
     bool                             enable_file_{true};

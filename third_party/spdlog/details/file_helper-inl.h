@@ -17,7 +17,7 @@
 #include <thread>
 #include <tuple>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace details {
 
 SPDLOG_INLINE file_helper::file_helper(const file_event_handlers &event_handlers)
@@ -150,4 +150,4 @@ SPDLOG_INLINE std::tuple<filename_t, filename_t> file_helper::split_by_extension
 }
 
 }  // namespace details
-}  // namespace spdlog
+}  // namespace blog::spdlog

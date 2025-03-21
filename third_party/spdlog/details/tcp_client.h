@@ -20,7 +20,7 @@
 
 #include <string>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace details {
 class tcp_client {
     int socket_ = -1;
@@ -124,4 +124,4 @@ public:
     }
 };
 }  // namespace details
-}  // namespace spdlog
+}  // namespace blog::spdlog

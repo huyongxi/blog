@@ -16,7 +16,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace details {
 
 // padding information.
@@ -68,12 +68,12 @@ public:
 
     explicit pattern_formatter(std::string pattern,
                                pattern_time_type time_type = pattern_time_type::local,
-                               std::string eol = spdlog::details::os::default_eol,
+                               std::string eol = blog::spdlog::details::os::default_eol,
                                custom_flags custom_user_flags = custom_flags());
 
     // use default pattern is not given
     explicit pattern_formatter(pattern_time_type time_type = pattern_time_type::local,
-                               std::string eol = spdlog::details::os::default_eol);
+                               std::string eol = blog::spdlog::details::os::default_eol);
 
     pattern_formatter(const pattern_formatter &other) = delete;
     pattern_formatter &operator=(const pattern_formatter &other) = delete;
@@ -111,7 +111,7 @@ private:
 
     void compile_pattern_(const std::string &pattern);
 };
-}  // namespace spdlog
+}  // namespace blog::spdlog
 
 #ifdef SPDLOG_HEADER_ONLY
     #include "pattern_formatter-inl.h"

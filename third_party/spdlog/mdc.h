@@ -16,10 +16,10 @@
 // Note: Not supported in async mode (thread local storage - so the async thread pool have different copy).
 //
 // Usage example:
-// spdlog::mdc::put("mdc_key_1", "mdc_value_1");
-// spdlog::info("Hello, {}", "World!");  // => [2024-04-26 02:08:05.040] [info] [mdc_key_1:mdc_value_1] Hello, World!
+// blog::spdlog::mdc::put("mdc_key_1", "mdc_value_1");
+// blog::spdlog::info("Hello, {}", "World!");  // => [2024-04-26 02:08:05.040] [info] [mdc_key_1:mdc_value_1] Hello, World!
 
-namespace spdlog {
+namespace blog::spdlog {
 class SPDLOG_API mdc {
 public:
     using mdc_map_t = std::map<std::string, std::string>;
@@ -47,4 +47,4 @@ public:
     }
 };
 
-}  // namespace spdlog
+}  // namespace blog::spdlog

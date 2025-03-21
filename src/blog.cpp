@@ -13,178 +13,181 @@ bool Blog::init(const std::string& logger_name, const std::string& filename, siz
     {
         return false;
     }
-    file_impl_ = spdlog::rotating_logger_mt(logger_name, filename, max_file_size, max_files);
+    file_impl_ = blog::spdlog::rotating_logger_mt(logger_name, filename, max_file_size, max_files);
     if (!file_impl_)
     {
         return false;
     }
-    console_impl_ = spdlog::stdout_color_mt("console");
+    console_impl_ = blog::spdlog::stdout_color_mt("console");
     if (!console_impl_)
     {
         return false;
     }
-    file_impl_->set_level(spdlog::level::info);
-    console_impl_->set_level(spdlog::level::info);
+    file_impl_->set_level(blog::spdlog::level::info);
+    console_impl_->set_level(blog::spdlog::level::info);
 
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e][thread %t][%s:%#][%l]: %v");
-
-    client_impl_ = make_shared<webSocketClient>();
-    client_impl_->connect("127.0.0.1", 8765);
-    client_impl_->start();
-
-    auto callback_sink = std::make_shared<spdlog::sinks::callback_sink_mt>(
-        [this](const spdlog::details::log_msg& msg) {
-            client_impl_->send_by_cache({msg.payload.data(), msg.payload.size()});
-        });
-
-    file_impl_->sinks().push_back(callback_sink);
+    blog::spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e][thread %t][%s:%#][%l]: %v");
 
     return true;
 }
 
+void Blog::enable_log_upload(const std::string& host, uint16_t port)
+{
+    client_impl_ = make_shared<webSocketClient>();
+    client_impl_->connect(host, port);
+    client_impl_->start();
+
+    auto callback_sink = std::make_shared<blog::spdlog::sinks::callback_sink_mt>(
+        [this](const blog::spdlog::details::log_msg& msg) {
+            client_impl_->send_by_cache({msg.payload.data(), msg.payload.size()});
+        });
+
+    file_impl_->sinks().push_back(callback_sink);
+}
+
 void Blog::set_level(loglevel log_level)
 {
-    file_impl_->set_level(static_cast<spdlog::level::level_enum>(log_level));
-    console_impl_->set_level(static_cast<spdlog::level::level_enum>(log_level));
+    file_impl_->set_level(static_cast<blog::spdlog::level::level_enum>(log_level));
+    console_impl_->set_level(static_cast<blog::spdlog::level::level_enum>(log_level));
 }
 
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_file_)
     {
-        file_impl_->log(static_cast<spdlog::level::level_enum>(level), rfmt, s1);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1);
     }
     if (enable_console_)
     {
-        console_impl_->log(static_cast<spdlog::level::level_enum>(level), rfmt, s1);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1);
     }
 }
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2);
     }
 }
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2, S s3)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3);
     }
 }
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2, S s3, S s4)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4);
     }
 }
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2, S s3, S s4, S s5)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5);
     }
 }
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2, S s3, S s4, S s5, S s6)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6);
     }
 }
 
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2, S s3, S s4, S s5, S s6, S s7)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7);
     }
 }
 
 void Blog::log_i(const source_location& loc, loglevel level, const char* fmt, S s1, S s2, S s3, S s4, S s5, S s6, S s7,
                  S s8)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     auto               rfmt = fmt::runtime(fmt);
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7, s8);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7, s8);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7, s8);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), rfmt, s1, s2, s3, s4, s5, s6, s7, s8);
     }
 }
 
 void Blog::log(const source_location& loc, loglevel level, const std::string& msg)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), msg);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), msg);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), msg);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), msg);
     }
 }
 void Blog::log(const source_location& loc, loglevel level, const std::string_view msg)
 {
-    spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
+    blog::spdlog::source_loc sl{loc.file_name(), int(loc.line()), loc.function_name()};
     if (enable_console_)
     {
-        console_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), msg);
+        console_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), msg);
     }
     if (enable_file_)
     {
-        file_impl_->log(sl, static_cast<spdlog::level::level_enum>(level), msg);
+        file_impl_->log(sl, static_cast<blog::spdlog::level::level_enum>(level), msg);
     }
 }
 
 Blog::~Blog() {}
 
-Blog& Blog::instance()
+Blog* Blog::instance()
 {
     static Blog blog;
-    return blog;
+    return &blog;
 }

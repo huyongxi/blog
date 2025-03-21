@@ -57,9 +57,9 @@ class Session : public std::enable_shared_from_this<Session>
         resolver_.async_resolve(host, port, beast::bind_front_handler(&Session::on_resolve, shared_from_this()));
     }
 
-    void wait_connect_complete()
+    bool wait_connect_complete()
     {
-        connect_complete_promise_.get_future().wait();
+        return std::future_status::ready == connect_complete_promise_.get_future().wait_for(std::chrono::seconds(3));
     }
 
     void close()

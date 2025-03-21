@@ -9,7 +9,7 @@
 
 #include "spdlog/common.h"
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace details {
 template <typename T>
 class circular_q {
@@ -112,4 +112,4 @@ private:
     }
 };
 }  // namespace details
-}  // namespace spdlog
+}  // namespace blog::spdlog

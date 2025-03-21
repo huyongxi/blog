@@ -20,7 +20,7 @@
 #include <string>
 #include <tuple>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace sinks {
 
 template <typename Mutex>
@@ -147,4 +147,4 @@ SPDLOG_INLINE bool rotating_file_sink<Mutex>::rename_file_(const filename_t &src
 }
 
 }  // namespace sinks
-}  // namespace spdlog
+}  // namespace blog::spdlog

@@ -69,11 +69,11 @@
     #define __has_feature(x) 0  // Compatibility with non-clang compilers.
 #endif
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace details {
 namespace os {
 
-SPDLOG_INLINE spdlog::log_clock::time_point now() SPDLOG_NOEXCEPT {
+SPDLOG_INLINE blog::spdlog::log_clock::time_point now() SPDLOG_NOEXCEPT {
 #if defined __linux__ && defined SPDLOG_CLOCK_COARSE
     timespec ts;
     ::clock_gettime(CLOCK_REALTIME_COARSE, &ts);
@@ -603,4 +603,4 @@ SPDLOG_INLINE bool fwrite_bytes(const void *ptr, const size_t n_bytes, FILE *fp)
 
 }  // namespace os
 }  // namespace details
-}  // namespace spdlog
+}  // namespace blog::spdlog

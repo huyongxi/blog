@@ -22,7 +22,7 @@
 //     int main() {
 //         auto dup_filter = std::make_shared<dup_filter_sink_st>(std::chrono::seconds(5),
 //         level::info); dup_filter->add_sink(std::make_shared<stdout_color_sink_mt>());
-//         spdlog::logger l("logger", dup_filter);
+//         blog::spdlog::logger l("logger", dup_filter);
 //         l.info("Hello");
 //         l.info("Hello");
 //         l.info("Hello");
@@ -34,7 +34,7 @@
 //       [2019-06-25 17:50:56.512] [logger] [info] Skipped 3 duplicate messages..
 //       [2019-06-25 17:50:56.512] [logger] [info] Different Hello
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace sinks {
 template <typename Mutex>
 class dup_filter_sink : public dist_sink<Mutex> {
@@ -89,4 +89,4 @@ using dup_filter_sink_mt = dup_filter_sink<std::mutex>;
 using dup_filter_sink_st = dup_filter_sink<details::null_mutex>;
 
 }  // namespace sinks
-}  // namespace spdlog
+}  // namespace blog::spdlog

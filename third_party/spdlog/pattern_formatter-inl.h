@@ -32,7 +32,7 @@
 #include <utility>
 #include <vector>
 
-namespace spdlog {
+namespace blog::spdlog {
 namespace details {
 
 ///////////////////////////////////////////////////////////////////////
@@ -1238,8 +1238,8 @@ SPDLOG_INLINE void pattern_formatter::handle_flag_(char flag, details::padding_i
                 formatters_.push_back((std::move(unknown_flag)));
             }
             // fix issue #1617 (prev char was '!' and should have been treated as funcname flag
-            // instead of truncating flag) spdlog::set_pattern("[%10!] %v") => "[      main] some
-            // message" spdlog::set_pattern("[%3!!] %v") => "[mai] some message"
+            // instead of truncating flag) blog::spdlog::set_pattern("[%10!] %v") => "[      main] some
+            // message" blog::spdlog::set_pattern("[%3!!] %v") => "[mai] some message"
             else {
                 padding.truncate_ = false;
                 formatters_.push_back(
@@ -1335,4 +1335,4 @@ SPDLOG_INLINE void pattern_formatter::compile_pattern_(const std::string &patter
         formatters_.push_back(std::move(user_chars));
     }
 }
-}  // namespace spdlog
+}  // namespace blog::spdlog
